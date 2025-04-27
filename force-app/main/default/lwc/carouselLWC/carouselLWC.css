@@ -1,0 +1,64 @@
+.carousel-container {
+    position: relative;
+    width: 100%; /* Full width */
+    margin: 0 auto; /* Center horizontally */
+    overflow: hidden;
+    border-radius: 0px; /* Remove rounding for full width effect */
+    box-shadow: none; /* Remove shadow for cleaner edge-to-edge look */
+}
+
+.carousel {
+    position: relative;
+    width: 100%; /* Full width */
+}
+
+.carousel-item {
+    min-width: 100%;
+    transition: opacity 1s ease-in-out;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.carousel-item.active {
+    opacity: 1;
+    position: relative;
+}
+
+.carousel img {
+    width: 100%; /* Full width */
+    height: 1100px; /* Fixed height */
+    object-fit: contain; /* Show full image without cropping */
+    object-position: center; /* Center image if smaller */
+    background-color: #000; /* Optional: adds contrast behind image */
+}
+
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    z-index: 1;
+}
+
+.carousel-control.prev {
+    left: 20px;
+}
+
+.carousel-control.next {
+    right: 20px;
+}
+
+/* Optional: Responsive height */
+@media screen and (max-width: 1000px) {
+    .carousel img {
+        height: 300px; /* Reduce height for mobile */
+    }
+}

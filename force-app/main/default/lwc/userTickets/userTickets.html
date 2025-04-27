@@ -1,0 +1,74 @@
+<template>
+    <lightning-card title="My Tickets" icon-name="standard:ticket">
+        <div class="slds-var-p-around_medium">
+            <!-- Show loading spinner while data is loading -->
+            <template if:true={isLoading}>
+                <div class="slds-is-relative slds-align_absolute-center">
+                    <lightning-spinner alternative-text="Loading tickets..." size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+            <!-- Show error message -->
+            <template if:true={error}>
+                <div class="slds-notify slds-notify_alert slds-alert_error slds-var-m-bottom_medium" role="alert">
+                    <span class="slds-assistive-text">Error</span>
+                    <lightning-icon icon-name="utility:error" alternative-text="Error" variant="inverse" size="small" class="slds-var-m-right_x-small"></lightning-icon>
+                    <h2 class="slds-text-heading_medium slds-text-color_error">{error}</h2>
+                </div>
+            </template>
+
+            <!-- Show tickets when data is loaded -->
+            <template if:true={tickets.length}>
+                <div class="slds-grid slds-wrap slds-gutters slds-m-top_medium">
+                    <template for:each={tickets} for:item="ticket">
+                        <div key={ticket.Id} class="slds-col slds-size_1-of-3 slds-p-around_small fade-in">
+                            <div class="ticket-card slds-box slds-theme_shade slds-p-around_large slds-text-align_center slds-border_bottom slds-var-m-around_medium shadow-effect">
+                                <lightning-icon icon-name="standard:event" size="large" class="slds-m-bottom_small"></lightning-icon>
+                                <h2 class="slds-text-heading_large slds-text-color_success slds-m-bottom_small">{ticket.EventName}</h2>
+                                <p class="slds-text-title_bold slds-m-top_x-small slds-text-color_default">
+                                    <strong>Ticket Name:</strong> {ticket.Name} <br/>
+                                    <strong>Date:</strong> {ticket.Date} <br/>
+                                    <strong>Status:</strong> <span class={ticket.statusClass}>{ticket.Status}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+                
+                <!-- Single Cancel Booking Button at the bottom of the page - hidden after cancellation -->
+                <template if:false={cancellationComplete}>
+                    <div class="slds-align_absolute-center slds-m-top_large fade-in">
+                        <lightning-button 
+                            label="Cancel Booking" 
+                            variant="destructive" 
+                            class="slds-button_stretch slds-p-horizontal_medium slds-m-around_small pulse-effect"
+                            onclick={handleCancel}>
+                        </lightning-button>
+                    </div>
+                </template>
+                
+                <!-- Show success message after cancellation -->
+                <template if:true={cancellationComplete}>
+                    <div class="slds-align_absolute-center slds-m-top_medium slds-text-color_success fade-in">
+                        <p class="slds-text-heading_medium">Booking has been successfully cancelled.</p>
+                    </div>
+                </template>
+            </template>
+
+            <!-- Show message when no tickets are available -->
+            <template if:false={tickets.length}>
+                <div class="slds-align_absolute-center slds-var-p-around_large slds-text-align_center fade-in">
+                    <p class="slds-text-heading_medium slds-text-color_weak">You don't have any tickets yet. Browse events to book tickets.</p>
+                    <lightning-button label="Browse Events" variant="brand" class="slds-m-top_medium pulse-effect"></lightning-button>
+                </div>
+            </template>
+        </div>
+
+        <!-- Cancel Booking Modal -->
+        <template if:true={showCancelBooking}>
+            <c-cancel-booking onclose={handleCloseModal} oncancellationcomplete={handleCancellationComplete}></c-cancel-booking>
+        </template>
+    </lightning-card>
+
+
+</template>

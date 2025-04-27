@@ -1,0 +1,126 @@
+<template>
+    <lightning-card title="Upcoming Events">
+        <div class="slds-grid slds-wrap">
+            <template for:each={formattedEvents} for:item="event">
+                <div key={event.Id} class="slds-col slds-size_1-of-3 slds-p-around_small">
+                    <div class="event-card slds-box slds-theme_default">
+                        <h2 class="event-name">{event.Name}</h2>
+                        <p><strong>Price:</strong> {event.displayPrice}</p>
+                        <p><strong>Date:</strong> {event.formattedDate}</p>
+                        <p><strong>Venue:</strong> {event.Venue__c}</p>
+                        <div class="slds-m-top_medium">
+                            <lightning-button label="Details" variant="neutral" 
+                                data-id={event.Id} onclick={handleDetails}></lightning-button>
+                            <lightning-button label="Book Now" variant="brand" class="slds-m-left_small"
+                                data-id={event.Id} onclick={handleBookNow}></lightning-button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+
+    <!-- Book Ticket Modal -->
+    <template if:true={showModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        onclick={handleCloseModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="Close" size="small"></lightning-icon>
+                    </button>
+                    <h2 class="slds-text-heading_medium">Book Tickets</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-input type="text" 
+                                   label="Ticket Name" 
+                                   name="ticketName" 
+                                   value={ticketName} 
+                                   onchange={handleInputChange} 
+                                   required></lightning-input>
+                    
+                    <lightning-input type="date" 
+                                   label="Purchase Date" 
+                                   name="purchaseDate" 
+                                   value={purchaseDate} 
+                                   onchange={handleInputChange} 
+                                   disabled></lightning-input>
+                    
+                    <lightning-combobox name="ticketType"
+                                      label="Ticket Type"
+                                      value={ticketType}
+                                      placeholder="Select Ticket Type"
+                                      options={ticketTypeOptions} 
+                                      onchange={handleInputChange}
+                                      required></lightning-combobox>
+
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col">
+                            <lightning-input type="number"
+                                           name="quantity"
+                                           label="Quantity"
+                                           min="1"
+                                           value={quantity}
+                                           onchange={handleInputChange}
+                                           required></lightning-input>
+                        </div>
+                        <div class="slds-col">
+                            <lightning-input type="text"
+                                           label="Price Per Ticket"
+                                           value={displayComputedPrice}
+                                           disabled></lightning-input>
+                        </div>
+                        <div class="slds-col">
+                            <lightning-input type="text"
+                                           label="Total Price"
+                                           value={displayTotalPrice}
+                                           disabled></lightning-input>
+                        </div>
+                    </div>
+                    
+                    <lightning-input type="text" 
+                                   label="Contact" 
+                                   value={contactName} 
+                                   disabled></lightning-input>
+                    
+                    <lightning-input type="text" 
+                                   label="Event" 
+                                   value={selectedEvent.Name} 
+                                   disabled></lightning-input>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" onclick={handleCloseModal}></lightning-button>
+                    <lightning-button label="Submit" variant="brand" class="slds-m-left_small" onclick={handleSubmit}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Event Details Modal -->
+    <template if:true={showDetailsModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        onclick={handleCloseModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="Close" size="small"></lightning-icon>
+                    </button>
+                    <h2 class="slds-text-heading_medium">Event Details</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <p><strong>Name:</strong> {formattedSelectedEvent.Name}</p>
+                    <p><strong>Price:</strong> {formattedSelectedEvent.displayPrice}</p>
+                    <p><strong>Date:</strong> {formattedSelectedEvent.formattedDate}</p>
+                    <p><strong>Venue:</strong> {formattedSelectedEvent.Venue__c}</p>
+                    <p><strong>Available Seats:</strong> {formattedSelectedEvent.Available_Seats__c}</p>
+                    <p><strong>Event Type:</strong> {formattedSelectedEvent.Event_Type__c}</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Close" onclick={handleCloseModal}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

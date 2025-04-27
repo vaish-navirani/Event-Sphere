@@ -1,0 +1,26 @@
+<template>
+    <lightning-card title="Cancel a Booking">
+        <div class="slds-m-around_medium">
+            <!-- Dropdown to Select Booking -->
+            <lightning-combobox
+                label="Select Booking"
+                value={selectedBookingId}
+                options={bookings}
+                onchange={handleBookingChange}
+            ></lightning-combobox>
+
+            <!-- Cancel Booking Button - only shown if showCancelButton is true -->
+            <template if:true={showCancelButton}>
+                <lightning-button 
+                    label="Cancel Booking" 
+                    onclick={handleCancelClick} 
+                    variant="destructive" 
+                    class="slds-m-top_medium"
+                ></lightning-button>
+            </template>
+        </div>
+    </lightning-card>
+
+    <!-- Flow Component (Hidden Until Triggered) -->
+    <lightning-flow onstatuschange={handleStatusChange}></lightning-flow>
+</template>

@@ -1,0 +1,41 @@
+<template>
+    <div class="footer-container">
+        <div class="footer-content">
+
+            <!-- Social Media Icons -->
+            <div class="social-icons">
+                <template for:each={socialMediaIcons} for:item="iconItem">
+                    <lightning-icon
+                        key={iconItem.alt}
+                        icon-name={iconItem.icon}
+                        alternative-text={iconItem.alt}
+                        size="small"
+                        class="icon-purple">
+                    </lightning-icon>
+                </template>
+            </div>
+
+            <!-- Address and Contact Info -->
+            <div class="footer-text">
+                <p>We're based in <strong> Hyderabad,India</strong>.</p>
+                <p>We work with clients from all over India. Get in touch with us!</p>
+            </div>
+
+            <div class="footer-contact">
+                <p>
+                    <lightning-icon icon-name="utility:email" alternative-text="Email" size="x-small" class="icon-purple"></lightning-icon>
+                    <a href={mailtoLink}>{email}</a>
+                </p>
+                <p>
+                    <lightning-icon icon-name="utility:call" alternative-text="Phone" size="x-small" class="icon-purple"></lightning-icon>
+                    <a href={telLink}>{phone}</a>
+                </p>
+                <p>
+                    <lightning-icon icon-name="utility:location" alternative-text="Location" size="x-small" class="icon-purple"></lightning-icon>
+                    <span>{address}</span>
+                </p>
+            </div>
+        </div>
+    </div>
+   
+</template>

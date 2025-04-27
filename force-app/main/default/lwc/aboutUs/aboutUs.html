@@ -1,0 +1,23 @@
+<template>
+    <div class="about-container">
+        <div class="about-header">
+            <h1>About <span class="highlight">EventSphere Productions</span></h1>
+        </div>
+        <template if:true={companyInfo}>
+            <div class="about-content">
+                <p>{companyInfo.description}</p>
+                <h2><b>Our Mission</b></h2>
+                <p>{companyInfo.mission}</p>
+                <h2><b>Why Choose Us?</b></h2>
+                <ul>
+                    <template for:each={companyInfo.features} for:item="feature">
+                        <li key={feature}>{feature}</li>
+                    </template>
+                </ul>
+            </div>
+        </template>
+        <template if:false={companyInfo}>
+            <p class="loading">Loading company information...</p>
+        </template>
+    </div>
+</template>

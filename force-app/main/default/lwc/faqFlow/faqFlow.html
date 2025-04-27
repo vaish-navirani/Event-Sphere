@@ -1,0 +1,36 @@
+<template>
+    <lightning-card title="Frequently Asked Questions" icon-name="custom:custom63">
+        <p class="slds-p-horizontal_small">Need help? Check out our FAQs.</p>
+        <lightning-button label="View FAQs" variant="brand" onclick={handleStartFaq}></lightning-button>
+    </lightning-card>
+
+    <template if:true={showModal}>
+        <section role="dialog" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">FAQs</h2>
+                    <lightning-button-icon icon-name="utility:close"
+                        alternative-text="Close"
+                        variant="bare"
+                        class="close-btn"
+                        onclick={handleCloseModal}>
+                    </lightning-button-icon>
+                </header>
+
+                <div class="slds-modal__content slds-p-around_medium">
+                    <template if:true={flowApiName}>
+                        <lightning-flow flow-api-name={flowApiName} onstatuschange={handleFlowFinish}></lightning-flow>
+                    </template>
+                    <template if:false={flowApiName}>
+                        <p class="slds-text-color_error">Error: No Flow API name provided!</p>
+                    </template>
+                </div>
+
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Close" variant="neutral" onclick={handleCloseModal}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>
